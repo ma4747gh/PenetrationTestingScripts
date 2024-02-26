@@ -41,7 +41,6 @@ class Solver:
     def start(self):
         self.signing_in()
         self.manipulating_the_object_using_python()
-        # You will need 'Lab: Modifying serialized objects.php'
         # self.manipulating_the_object_using_php()
         self.deleting_the_user()
         self.checking_solution()
