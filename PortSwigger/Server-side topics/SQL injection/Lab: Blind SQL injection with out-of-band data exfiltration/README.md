@@ -15,8 +15,8 @@ This repository contains a Java-based extension for Burp Suite using the burp.ap
 First, clone this repository to your local machine:
 
 ```sh
-git clone <your-repo-url>
-cd <your-repo-directory>
+git clone https://github.com/ma4747gh/PenetrationTestingScripts
+cd PenetrationTestingScripts
 ```
 
 ### 2. Download the Montoya API
