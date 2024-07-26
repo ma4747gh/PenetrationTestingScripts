@@ -22,6 +22,7 @@ class LabSolver:
         cookie_header = 'Cookie: phpsessionid={}'.format(self.session.cookies.get('phpsessionid'))
         csrf = self.get_csrf_token('register')
 
+        # https://github.com/ma4747gh/H2SinglePacketAttacker
         for i in range(20):
             command = ('python /home/ma4747gh/Desktop/GitHub/H2SinglePacketAttacker/h2_single_packet_attacker.py '
                        '{} 443 --tls_channel --streams 101 --pickle output{} '
