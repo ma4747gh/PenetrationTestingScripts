@@ -1,0 +1,75 @@
+# Lab: Blind XXE with out-of-band interaction via XML parameter entities
+
+This repository contains a Java-based extension for Burp Suite using the burp.api.montoya API. The extension is designed to solve a specific lab involving blind XXE with out-of-band interaction via XML parameter entities.
+
+## Prerequisites
+
+- Java Development Kit (JDK) 17 or later
+- Burp Suite Professional
+- Git
+
+## Setup Instructions
+
+### 1. Clone the Repository
+
+First, clone this repository to your local machine:
+
+```sh
+git clone https://github.com/ma4747gh/PenetrationTestingScripts
+cd PenetrationTestingScripts
+```
+
+### 2. Download the Montoya API
+
+Download the Montoya API source code from the following link: [Montoya API](https://github.com/PortSwigger/burp-extensions-montoya-api)
+
+Extract the contents and place the `burp` directory inside the root directory of this repository as shown below:
+
+```
+Lab: Blind XXE with out-of-band interaction via XML parameter entities
+├── build
+├── burp
+│   └── api
+│       └── montoya
+│           └── ... (other Montoya API files)
+├── labSolver
+│   └── ... (other Java files)
+└── README.md
+```
+
+### 3. Update Lab URL
+
+Before compiling the Java files, you need to update the lab URL in two places:
+
+1. Open `LabSolver.java` and replace the URL at line `27` with your specific lab URL.
+
+### 4. Compile the Java Files
+
+Run the following commands to compile the Java files and create the JAR file:
+
+```sh
+javac -d build/ labSolver/*.java
+jar cvf 'Lab: Blind XXE with out-of-band interaction via XML parameter entities.jar' -C build/ .
+```
+
+### 5. Load the Extension in Burp Suite
+
+1. Open Burp Suite Professional.
+2. Go to the `Extensions` tab.
+3. Click on the `Add` button.
+4. Select the JAR file `Lab: Blind XXE with out-of-band interaction via XML parameter entities.jar`.
+5. The extension should now be loaded and running.
+
+### 6. Solve the Lab
+
+With the extension loaded in Burp Suite, the extension will handle the interaction and solve the lab automatically without any further action required from you.
+## Notes
+
+- Ensure that you have replaced the lab URLs correctly before compiling the code.
+- This extension uses session management to handle CSRF tokens and maintain sessions between requests.
+
+## Author
+
+Coded by Mohamed Ahmed (ma4747gh).
+- [GitHub](https://github.com/ma4747gh)
+- [LinkedIn](https://eg.linkedin.com/in/ma4747gh)
